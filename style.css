@@ -338,7 +338,7 @@ body {
 }
 #about .about_container .about_right {
   margin-right: 35px;
-  margin-top: 35px;
+  margin-top: -30px;
   position: relative;
   overflow: visible;
   width: 40%;

@@ -1,56 +1,57 @@
 // PRELOADER
-const preloader = document.querySelector(".preloader");
-window.addEventListener(" load", function () {
-  preloader.classList.add("loaded");
-  this.document.body.classList.add("loaded");
+const preloader = document.querySelector('.preloader');
+
+window.addEventListener('load', () => {
+  preloader.classList.add('loaded');
+  document.body.classList.add('loaded');
 });
 
 // HOME SLIDER SECTION
-const slides = document.querySelectorAll(".slide");
+const slides = document.querySelectorAll('.slide');
 let counter = 0;
 let sliderInterval; // To handle auto-sliding interval
 let interactionTimeout; // To track inactivity after user interaction
 
 // Function to slide images
-const slideImage = function () {
-  slides.forEach(function (slide) {
+function slideImage() {
+  slides.forEach((slide) => {
     slide.style.transform = `translateX(-${counter * 100}%)`;
   });
-};
+}
 
 // Function to start auto-sliding
-const startAutoSlide = function () {
-  sliderInterval = setInterval(function () {
+function startAutoSlide() {
+  sliderInterval = setInterval(() => {
     counter++;
     if (counter >= slides.length) {
       counter = 0;
     }
     slideImage();
   }, 4000);
-};
+}
 
 // Function to reset the auto-sliding after interaction
-const resetAutoSlide = function () {
+function resetAutoSlide() {
   clearInterval(sliderInterval); // Stop auto-slide immediately
   clearTimeout(interactionTimeout); // Clear any previously set timeout
 
   // Set timeout to resume auto-sliding after 5 seconds of no interaction
-  interactionTimeout = setTimeout(function () {
+  interactionTimeout = setTimeout(() => {
     startAutoSlide(); // Restart auto-sliding
   }, 5000);
-};
+}
 
 // Initialize the slider
-slides.forEach(function (slide, index) {
+slides.forEach((slide, index) => {
   slide.style.left = `${index * 100}%`;
-  slide.style.transition = "transform 2s ease";
+  slide.style.transition = 'transform 2s ease';
 });
 
 // Start the auto-sliding when the page loads
 startAutoSlide();
 
 // Next Slide Button Event
-document.querySelector(".next_slide").addEventListener("click", function () {
+document.querySelector('.next_slide').addEventListener('click', () => {
   clearInterval(sliderInterval); // Stop auto-sliding on interaction
   counter++;
   if (counter >= slides.length) {
@@ -61,7 +62,7 @@ document.querySelector(".next_slide").addEventListener("click", function () {
 });
 
 // Previous Slide Button Event
-document.querySelector(".prev_slide").addEventListener("click", function () {
+document.querySelector('.prev_slide').addEventListener('click', () => {
   clearInterval(sliderInterval); // Stop auto-sliding on interaction
   counter--;
   if (counter < 0) {
@@ -72,61 +73,86 @@ document.querySelector(".prev_slide").addEventListener("click", function () {
 });
 
 // View Menu Button Event
-document.querySelector(".home_menu").addEventListener("click", function () {
-  document.querySelector("#menu").scrollIntoView({
-    behavior: "smooth",
+document.querySelector('.home_menu').addEventListener('click', () => {
+  document.querySelector('#menu').scrollIntoView({
+    behavior: 'smooth',
+  });
+});
+
+// Header Links Scrolling Behavior
+document.querySelectorAll('.nav-links a').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const sectionId = link.getAttribute('href');
+    const section = document.querySelector(sectionId);
+    const sectionRect = section.getBoundingClientRect();
+    const scrollY = sectionRect.top + window.scrollY;
+    window.scrollTo({
+      top: scrollY,
+      behavior: 'smooth',
+    });
   });
 });
 
 // Find Table Button Event
-document.querySelectorAll(".find-table").forEach(function (button) {
-  button.addEventListener("click", function () {
-    document.querySelector("#contact").scrollIntoView({
-      behavior: "smooth",
+document.querySelectorAll('.find-table').forEach((button) => {
+  button.addEventListener('click', () => {
+    const contactSection = document.querySelector('#contact');
+    const contactRect = contactSection.getBoundingClientRect();
+    const scrollY = contactRect.top + window.scrollY;
+    window.scrollTo({
+      top: scrollY,
+      behavior: 'smooth',
     });
   });
 });
 
 // Form Submission Validation
-function validateForm() {
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const persons = document.getElementById("persons").value;
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const message = document.getElementById("message").value;
+function validateForm(event) {
+  const name = document.getElementById('name').value;
+  const phone = document.getElementById('phone').value;
+  const persons = document.getElementById('persons').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+  const message = document.getElementById('message').value;
 
-  if (name === "") {
-    alert("Name is required.");
+  if (name === '') {
+    alert('Name is required.');
+    event.preventDefault();
     return false;
   }
 
   const phonePattern = /^[0-9]{10}$/;
   if (!phonePattern.test(phone)) {
-    alert("Please enter a valid 10-digit phone number.");
+    alert('Please enter a valid 10-digit phone number.');
+    event.preventDefault();
     return false;
   }
 
-  if (persons === "") {
-    alert("Please select the number of persons.");
+  if (persons === '') {
+    alert('Please select the number of persons.');
+    event.preventDefault();
     return false;
   }
 
-  if (date === "") {
-    alert("Please select a date.");
+  if (date === '') {
+    alert('Please select a date.');
+    event.preventDefault();
     return false;
   }
 
-  if (time === "") {
-    alert("Please select a time.");
+  if (time === '') {
+    alert('Please select a time.');
+    event.preventDefault();
     return false;
   }
 
-  if (message === "") {
-    alert("Please enter a message.");
+  if (message === '') {
+    alert('Please enter a message.');
+    event.preventDefault();
     return false;
   }
 
-  alert("Form submitted successfully!");
+  alert('Form submitted successfully!');
   return true;
 }

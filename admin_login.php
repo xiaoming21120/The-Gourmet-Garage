@@ -1,13 +1,15 @@
 <?php
 session_start();
-$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
   // Replace with your actual admin credentials
-  if ($username == "techblitz" && $password == "techblitz") {
+  $admin_username = "techblitz";
+  $admin_password = "techblitz";
+
+  if ($username == $admin_username && $password == $admin_password) {
     $_SESSION['admin_logged_in'] = true;
     header("Location: admin.php");
     exit;
@@ -15,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = "Invalid username or password!";
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -27,18 +30,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
   <h1>Admin Login</h1>
+  <?php if (isset($error)) { ?>
+    <p style="color: red;"><?php echo $error; ?></p>
+  <?php } ?>
   <form method="post" action="">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
 
     <label for="password">Password:</label>
-    <input type="password" id="password" name ="password" required>
+    <input type="password" id="password" name="password" required>
 
     <button type="submit">Login</button>
   </form>
-
-  <?php if ($error): ?>
-    <p style="color: red;"><?php echo $error; ?></p>
-  <?php endif; ?>
 </body>
 </html>
