@@ -1,23 +1,26 @@
 <?php
+// admin_login.php
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-  // Replace with your actual admin credentials
-  $admin_username = "techblitz";
-  $admin_password = "techblitz";
+    // Replace with your actual admin credentials
+    $admin_username = "techblitz";
+    $admin_password = "techblitz"; // Store the hashed password instead of plain text
 
-  if ($username == $admin_username && $password == $admin_password) {
-    $_SESSION['admin_logged_in'] = true;
-    header("Location: admin.php");
-    exit;
-  } else {
-    $error = "Invalid username or password!";
-  }
+    // Hash the password for comparison
+    $hashed_password = password_hash($admin_password, PASSWORD_DEFAULT);
+
+    if ($username == $admin_username && password_verify($password, $hashed_password)) {
+        $_SESSION['admin_logged_in'] = true;
+        header("Location: admin.php");
+        exit;
+    } else {
+        $error = "Invalid username or password!";
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
