@@ -16,7 +16,9 @@ if (!window.fetch) {
       xhr.send(options.body);
     });
   };
-} // PRELOADER
+}
+
+// PRELOADER
 const preloader = document.querySelector(".preloader");
 
 window.addEventListener("load", () => {
